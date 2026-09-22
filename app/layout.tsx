@@ -1,21 +1,37 @@
+import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
-import { Bodoni_Moda, Manrope } from 'next/font/google';
+import { Playfair_Display, Poppins } from 'next/font/google';
 import './globals.css';
 
-const display = Bodoni_Moda({ variable: '--font-display', subsets: ['latin'], display: 'swap', weight: ['400', '500', '600', '700'] });
-const body = Manrope({ variable: '--font-body', subsets: ['latin'], display: 'swap' });
+const playfair = Playfair_Display({
+  variable: '--font-playfair',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+});
+
+const poppins = Poppins({
+  variable: '--font-poppins',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600'],
+});
 
 export const metadata: Metadata = {
-  title: 'RS Developers | You Dream It. We Build It.',
-  description: 'Engineering-led construction, interiors and turnkey execution across Punjab and Himachal Pradesh—from first brief to final handover.',
+  title: 'RS Developers | Your Vision. Our Construction.',
+  description: 'RS Developers — residential, commercial, industrial, interior and turnkey construction across Punjab and Himachal Pradesh.',
   openGraph: {
-    title: 'RS Developers | You Dream It. We Build It.',
-    description: 'Ambitious residential, commercial, industrial and hospitality spaces delivered by one accountable team.',
+    title: 'RS Developers | Your Vision. Our Construction.',
+    description: 'A clean, professional construction website focused on services, projects, credibility and contact.',
     type: 'website',
     images: [{ url: '/media/coyaba-facade.webp', width: 1600, height: 900, alt: 'The Coyaba, Ludhiana' }],
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body className={`${display.variable} ${body.variable}`}>{children}</body></html>;
+export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  return (
+    <html lang="en" className={`${playfair.variable} ${poppins.variable}`}>
+      <body className="min-h-svh bg-brand-white font-body text-brand-black antialiased">{children}</body>
+    </html>
+  );
 }
