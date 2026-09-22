@@ -18,11 +18,11 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'RS Developers | Your Vision. Our Construction.',
-  description: 'RS Developers — residential, commercial, industrial, interior and turnkey construction across Punjab and Himachal Pradesh.',
+  title: 'RS Developers | You Dream It. We Build It.',
+  description: 'RS Developers — residential, commercial, industrial and interior turnkey projects across Punjab and Himachal Pradesh.',
   openGraph: {
-    title: 'RS Developers | Your Vision. Our Construction.',
-    description: 'A clean, professional construction website focused on services, projects, credibility and contact.',
+    title: 'RS Developers | You Dream It. We Build It.',
+    description: 'Construction and interiors from planning to handover. Based in Ludhiana.',
     type: 'website',
     images: [{ url: '/media/coyaba-facade.webp', width: 1600, height: 900, alt: 'The Coyaba, Ludhiana' }],
   },

@@ -1,50 +1,75 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
-import { InnerShell } from '@/components/inner-shell';
+import type { LucideIcon } from 'lucide-react';
+import {
+  ArrowRight,
+  Calculator,
+  Check,
+  ClipboardList,
+  FileCheck2,
+  Hammer,
+  KeyRound,
+  ListChecks,
+  MapPinned,
+  MessagesSquare,
+  Ruler,
+} from 'lucide-react';
+import { SiteShell } from '@/components/site-chrome';
 import { contactDetails, processSteps } from '@/lib/site-data';
 
 export const metadata: Metadata = {
-  title: 'About RS Developers | Rahul Bhardwaj',
-  description: 'Learn about RS Developers, founder Rahul Bhardwaj, and how we deliver construction and turnkey projects across Punjab and Himachal Pradesh.',
+  title: 'About RS Developers | Er. Rahul Bhardwaj',
+  description: 'RS Developers — 4+ years, 30+ projects across Punjab and Himachal Pradesh. Founded by Er. Rahul Bhardwaj.',
 };
+
+const processIcons: LucideIcon[] = [
+  ClipboardList,
+  MapPinned,
+  Calculator,
+  MessagesSquare,
+  FileCheck2,
+  Ruler,
+  Hammer,
+  ListChecks,
+  KeyRound,
+];
 
 export default function AboutPage() {
   return (
-    <InnerShell>
+    <SiteShell>
       <section className="px-(--spacing-gutter) pt-16 pb-12 md:pt-24">
-        <p className="mb-4 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">RS Developers · Ludhiana</p>
-        <h1 className="max-w-[18ch] font-heading text-[clamp(2.5rem,6vw,4rem)]">
-          Your Vision.
+        <p className="mb-4 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">About · RS Developers</p>
+        <h1 className="max-w-[16ch] font-heading text-[clamp(2.5rem,6vw,4rem)]">
+          {contactDetails.taglineLine1}
           <br />
-          <em className="not-italic text-brand-red">Our Construction.</em>
+          <em className="not-italic text-brand-red">{contactDetails.taglineLine2}</em>
         </h1>
         <p className="mt-6 max-w-[640px] text-base leading-relaxed">
-          We are a construction and interiors practice focused on residential, commercial, industrial, interior and turnkey projects—with one team accountable from first enquiry to handover.
+          RS Developers has been in business for {contactDetails.yearsInBusiness} years with {contactDetails.projectsCompleted} projects completed. We serve clients all over Punjab and Himachal Pradesh with commercial, residential, industrial and turnkey projects.
         </p>
       </section>
 
-      <section className="grid gap-10 border-t border-brand-black px-(--spacing-gutter) py-(--spacing-section) md:grid-cols-2">
+      <section className="grid gap-10 border-t border-brand-black px-(--spacing-gutter) py-16 md:grid-cols-2">
         <div>
-          <p className="mb-3 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">Who We Are</p>
-          <h2 className="font-heading text-4xl">Clarity Before Work Begins. Quality Through Every Stage.</h2>
+          <p className="mb-3 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">What Sets Us Apart</p>
+          <h2 className="font-heading text-4xl">All Things Under One Roof.</h2>
         </div>
-        <div className="space-y-4 text-base leading-relaxed">
-          <p>
-            RS Developers brings planning, construction, interiors and turnkey delivery under one roof. We serve clients across Punjab and Himachal Pradesh on residential, commercial, industrial and hospitality projects.
-          </p>
-          <p>
-            Customers associate us with transparent communication, disciplined site execution, complete accountability and finished spaces that hold up long after handover.
-          </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {contactDetails.values.map((value) => (
+            <span key={value} className="flex items-start gap-3 border border-brand-black/15 p-4 text-base">
+              <Check className="mt-0.5 size-5 shrink-0 text-brand-red" />
+              {value}
+            </span>
+          ))}
         </div>
       </section>
 
-      <section className="grid gap-10 border-t border-brand-black px-(--spacing-gutter) py-(--spacing-section) md:grid-cols-2">
+      <section className="grid gap-10 border-t border-brand-black px-(--spacing-gutter) py-16 md:grid-cols-2">
         <figure className="relative min-h-[420px] overflow-hidden">
           <Image
             src="/media/rahul-bhardwaj-founder.jpg"
-            alt="Rahul Bhardwaj, owner and founder of RS Developers"
+            alt="Er. Rahul Bhardwaj, founder of RS Developers"
             fill
             sizes="(max-width: 760px) 100vw, 46vw"
             className="object-cover"
@@ -53,50 +78,62 @@ export default function AboutPage() {
         <div>
           <span className="text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">{contactDetails.founder.designation}</span>
           <h2 className="mt-3 font-heading text-4xl">{contactDetails.founder.name}</h2>
-          <h3 className="mt-4 text-xl font-semibold">{contactDetails.founder.experience} of professional experience behind every decision.</h3>
+          <h3 className="mt-4 text-xl font-semibold">{contactDetails.founder.experience} of professional experience.</h3>
           <p className="mt-4 text-base leading-relaxed">
-            Rahul leads from the site, combining engineering discipline with a practical understanding of people, materials and execution. Transparency and direct accountability define how RS Developers works.
+            Er. Rahul Bhardwaj leads RS Developers with an engineering-first approach to planning, construction and turnkey delivery—focused on transparency, quality and on-time handover.
           </p>
-          <blockquote className="mt-6 border-l-2 border-brand-red pl-4 text-lg italic">
-            “A client should always know what is happening, why it matters and who is responsible.”
-          </blockquote>
+          <div className="mt-6">
+            <p className="mb-3 text-[13px] tracking-[0.12em] text-brand-red uppercase">Memberships</p>
+            <ul className="flex flex-wrap gap-2">
+              {contactDetails.founder.memberships.map((item) => (
+                <li key={item} className="border border-brand-black px-3 py-2 text-[14px]">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
           <Link href="/contact" className="mt-8 inline-flex items-center gap-2 font-heading text-[14px] font-semibold tracking-[0.08em] uppercase">
             Start A Conversation <ArrowRight className="size-4 text-brand-red" />
           </Link>
         </div>
       </section>
 
-      <section className="border-t border-brand-black px-(--spacing-gutter) py-(--spacing-section)">
-        <p className="mb-3 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">What Clients Can Expect</p>
-        <h2 className="mb-8 font-heading text-4xl">The RS Developers Standard.</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            'Clear scopes before work begins',
-            'Quality without convenient compromises',
-            'Timelines that stay visible',
-            'One accountable team from brief to handover',
-            'Support through snagging and final handover',
-          ].map((item) => (
-            <span key={item} className="flex items-start gap-3 border border-brand-black/15 p-4 text-base">
-              <Check className="mt-0.5 size-5 shrink-0 text-brand-red" />
-              {item}
-            </span>
-          ))}
+      <section className="grid gap-10 border-t border-brand-black px-(--spacing-gutter) py-16 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start lg:gap-14">
+        <figure className="relative min-h-[360px] overflow-hidden md:min-h-[480px] lg:sticky lg:top-28 lg:min-h-[560px]">
+          <Image
+            src="/media/coyaba-detail-1.webp"
+            alt="Crafted construction detail from an RS Developers project"
+            fill
+            sizes="(max-width: 1024px) 100vw, 42vw"
+            className="object-cover"
+          />
+        </figure>
+
+        <div>
+          <p className="mb-3 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">From Enquiry To Handover</p>
+          <h2 className="font-heading text-4xl">How A Project Moves Forward.</h2>
+          <p className="mt-4 max-w-[42ch] text-base leading-relaxed text-brand-black/75">
+            A clear path from first conversation to final keys—so every stage stays visible, accountable and on schedule.
+          </p>
+
+          <ol className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+            {processSteps.map((step, index) => {
+              const Icon = processIcons[index] ?? ClipboardList;
+              return (
+                <li key={step} className="flex flex-col gap-3">
+                  <span className="grid size-11 place-items-center bg-brand-red text-brand-white" aria-hidden="true">
+                    <Icon className="size-5" strokeWidth={1.75} />
+                  </span>
+                  <span className="font-heading text-[12px] font-semibold tracking-[0.14em] text-brand-red uppercase">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="text-[15px] leading-snug text-brand-black">{step}</span>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </section>
-
-      <section className="border-t border-brand-black px-(--spacing-gutter) py-(--spacing-section)">
-        <p className="mb-3 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">From Enquiry To Handover</p>
-        <h2 className="mb-8 font-heading text-4xl">How A Project Moves Forward.</h2>
-        <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {processSteps.map((step, index) => (
-            <li key={step} className="flex gap-4 border-t border-brand-black pt-4 text-base">
-              <span className="font-heading text-brand-red">{String(index + 1).padStart(2, '0')}</span>
-              {step}
-            </li>
-          ))}
-        </ol>
-      </section>
-    </InnerShell>
+    </SiteShell>
   );
 }
