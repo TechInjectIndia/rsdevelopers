@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, ClipboardList, FileSpreadsheet, HardHat, KeyRound } from 'lucide-react';
 import { SiteShell } from '@/components/site-chrome';
-import { capabilities, processSteps } from '@/lib/site-data';
+import { SiteButton } from '@/components/site-ui';
+import { capabilities, processSteps, serviceDeliverables } from '@/lib/site-data';
+
+const includeIcons = [ClipboardList, FileSpreadsheet, HardHat, KeyRound] as const;
 
 export const metadata: Metadata = {
   title: 'Services | RS Developers',
@@ -12,72 +14,103 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <SiteShell>
-      <section className="px-(--spacing-gutter) pt-16 pb-12 md:pt-24">
-        <p className="mb-4 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">Services</p>
-        <h1 className="max-w-[14ch] font-heading text-[clamp(2.5rem,6vw,4rem)]">
-          Concept To
-          <br />
-          <em className="not-italic text-brand-red">Completion.</em>
-        </h1>
-        <p className="mt-6 max-w-[640px] text-base leading-relaxed">
-          RS Developers offers residential, commercial, industrial and interior turnkey projects—with complete turnkey execution from planning to handover.
-        </p>
-        <Link
-          href="/contact"
-          className="mt-8 inline-flex items-center gap-2 bg-brand-red px-5 py-3 font-heading text-[14px] font-semibold tracking-[0.16em] text-brand-white uppercase"
-        >
-          Discuss Your Project <ArrowRight className="size-4" />
-        </Link>
+    <SiteShell headerVariant="overlay">
+      <section className="relative flex h-[80vh] flex-col justify-end overflow-hidden bg-brand-black text-brand-white">
+        <Image
+          src="/media/soir7-interior-1.jpg"
+          alt="RS Developers interior turnkey work"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="hero-wash" aria-hidden="true" />
+        <div className="relative z-[5] max-w-[720px] px-(--spacing-gutter) pt-[clamp(7.5rem,16vh,10rem)] pb-[clamp(3rem,6vh,4.5rem)]">
+          <h1 className="max-w-[900px] font-heading text-[clamp(3rem,7.5vw,3.5rem)] leading-[1.02] text-white [text-shadow:0_2px_28px_rgba(0,0,0,0.45)]">
+            Concept To
+            <br />
+            <span className="text-brand-red">Completion.</span>
+          </h1>
+          <p className="mt-6 max-w-[540px] font-body text-base text-white/90 [text-shadow:0_1px_16px_rgba(0,0,0,0.4)]">
+            Residential, commercial, industrial and interior turnkey—planning to handover through one accountable team.
+          </p>
+          <SiteButton href="/contact" variant="red" className="mt-9">
+            Discuss Your Project <ArrowRight className="size-4" />
+          </SiteButton>
+        </div>
       </section>
 
-      <section className="border-t border-brand-black">
-        {capabilities.map((service, index) => (
-          <article
-            id={service.slug}
-            key={service.slug}
-            className="grid gap-8 border-b border-brand-black px-(--spacing-gutter) py-12 md:grid-cols-2 md:py-16"
-          >
-            <div className="relative min-h-[300px] overflow-hidden">
-              <Image
-                src={service.image}
-                alt={`${service.title} by RS Developers`}
-                fill
-                sizes="(max-width: 760px) 100vw, 46vw"
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <span className="text-[14px] font-semibold tracking-[0.12em] text-brand-red uppercase">
-                {service.number} · {service.scope}
-              </span>
-              <h2 className="mt-3 font-heading text-4xl">{service.title}</h2>
-              <h3 className="mt-4 text-xl font-semibold">{service.lead}</h3>
-              <p className="mt-4 text-base leading-relaxed">{service.copy}</p>
-              <ul className="mt-6 space-y-2">
-                {['Planning and consultation', 'Estimate / BOQ', 'Coordinated execution', 'Snagging and handover'].map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-base">
-                    <Check className="size-4 text-brand-red" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <b className="mt-6 block font-heading text-6xl text-brand-black/10" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </b>
-            </div>
-          </article>
-        ))}
+      <section className="px-(--spacing-gutter) py-16 md:py-20">
+        <div className="mx-auto mb-12 max-w-[720px] text-center md:mb-14">
+          <h2 className="font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight text-brand-black">
+            Services We Deliver.
+          </h2>
+          <p className="mx-auto mt-3 max-w-[540px] font-body text-base leading-relaxed text-brand-black/70">
+            Residential, commercial, industrial and interior turnkey—planning to handover, concept to completion.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {capabilities.map((service) => (
+            <article id={service.slug} key={service.slug} className="flex flex-col">
+              <figure className="relative mb-5 h-[280px] overflow-hidden md:h-[340px]">
+                <Image
+                  src={service.image}
+                  alt={`${service.title} by RS Developers`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </figure>
+              <h3 className="font-heading text-[1.4rem] leading-snug text-brand-black">{service.title}</h3>
+              <p className="mt-2 m-0 font-body text-[14px] leading-relaxed text-brand-black/65">{service.lead}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
-      <section className="px-(--spacing-gutter) py-16">
-        <p className="mb-3 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">How We Work</p>
-        <h2 className="mb-8 font-heading text-4xl">Planning To Handover.</h2>
-        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="bg-brand-red px-(--spacing-gutter) py-16 text-brand-white md:py-20">
+        <div className="mx-auto mb-12 max-w-[720px] text-center md:mb-14">
+          <h2 className="font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight text-white">
+            What Every Service Includes.
+          </h2>
+          <p className="mx-auto mt-3 max-w-[540px] font-body text-base leading-relaxed text-white/85">
+            The same accountable path on every project—so planning, cost, site work and handover stay in one set of hands.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6 lg:gap-10">
+          {serviceDeliverables.map((item, index) => {
+            const Icon = includeIcons[index];
+            return (
+              <article key={item} className="flex flex-col items-center text-center">
+                <span className="mb-4 grid size-12 place-items-center rounded-full bg-white/15 text-white">
+                  <Icon className="size-5" strokeWidth={1.75} />
+                </span>
+                <h3 className="font-heading text-[1.15rem] leading-snug text-white lg:text-[1.25rem]">{item}</h3>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="px-(--spacing-gutter) py-16 md:py-20">
+        <div className="mx-auto mb-12 max-w-[720px] text-center md:mb-14">
+          <h2 className="font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight text-brand-black">
+            Planning To Handover.
+          </h2>
+          <p className="mx-auto mt-3 max-w-[540px] font-body text-base leading-relaxed text-brand-black/70">
+            Every service follows the same path—so the work stays visible from first conversation to final keys.
+          </p>
+        </div>
+        <ol className="m-0 grid list-none grid-cols-1 gap-x-8 gap-y-10 p-0 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-12">
           {processSteps.map((step, index) => (
-            <li key={step} className="flex gap-4 border-t border-brand-black pt-4 text-base">
-              <span className="font-heading text-brand-red">{String(index + 1).padStart(2, '0')}</span>
-              {step}
+            <li key={step.title} className="flex flex-col">
+              <span className="mb-4 grid size-11 place-items-center rounded-full bg-brand-red font-heading text-[13px] font-semibold tracking-[0.06em] text-white">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 className="font-heading text-[1.2rem] leading-snug text-brand-black">{step.title}</h3>
+              <p className="mt-2 m-0 max-w-[36ch] font-body text-[14px] leading-relaxed text-brand-black/60">
+                {step.lead}
+              </p>
             </li>
           ))}
         </ol>

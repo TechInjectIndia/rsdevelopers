@@ -32,6 +32,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   const index = caseStudies.findIndex((item) => item.slug === slug);
   const next = caseStudies[(index + 1) % caseStudies.length];
+  const facts = [
+    { label: 'Location', value: project.location },
+    { label: 'Scale', value: project.size },
+    { label: 'Scope', value: project.service },
+  ];
 
   return (
     <SiteShell>
@@ -45,36 +50,30 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <span className="block text-[14px] tracking-[0.12em] uppercase">
             {project.number} · {project.type} · {project.status}
           </span>
-          <h1 className="mt-3 font-heading text-[clamp(2.5rem,6vw,4rem)]">{project.title}</h1>
+          <h1 className="mt-3 font-heading text-[clamp(2.25rem,5vw,3.5rem)]">{project.title}</h1>
           <p className="mt-4 max-w-[560px] text-base text-white/90">{project.lead}</p>
         </div>
       </section>
 
-      <section className="grid gap-8 border-b border-brand-black px-(--spacing-gutter) py-12 md:grid-cols-[repeat(3,minmax(0,1fr))_1.4fr]">
-        <div>
-          <span className="text-[13px] tracking-[0.12em] text-brand-red uppercase">Location</span>
-          <strong className="mt-2 block font-heading text-xl">{project.location}</strong>
-        </div>
-        <div>
-          <span className="text-[13px] tracking-[0.12em] text-brand-red uppercase">Scale</span>
-          <strong className="mt-2 block font-heading text-xl">{project.size}</strong>
-        </div>
-        <div>
-          <span className="text-[13px] tracking-[0.12em] text-brand-red uppercase">Scope</span>
-          <strong className="mt-2 block font-heading text-xl">{project.service}</strong>
-        </div>
-        <p className="text-base leading-relaxed md:pl-6">{project.copy}</p>
+      <section className="grid gap-8 px-(--spacing-gutter) py-12 md:grid-cols-[repeat(3,minmax(0,1fr))_1.5fr] md:py-16">
+        {facts.map((fact) => (
+          <div key={fact.label}>
+            <span className="text-[13px] tracking-[0.12em] text-brand-red uppercase">{fact.label}</span>
+            <strong className="mt-2 block font-heading text-xl">{fact.value}</strong>
+          </div>
+        ))}
+        <p className="text-base leading-relaxed text-brand-black/75 md:pl-6">{project.copy}</p>
       </section>
 
       {project.images.length > 1 && (
-        <section className="grid gap-4 px-(--spacing-gutter) py-12 md:grid-cols-2">
+        <section className="grid gap-4 px-(--spacing-gutter) pb-12 md:grid-cols-2">
           {project.images.slice(1).map((image, imageIndex) => (
             <figure key={image} className="relative m-0 h-[min(48vw,420px)] overflow-hidden">
               <Image
                 src={image}
                 alt={`${project.title} view ${imageIndex + 2}`}
                 fill
-                sizes="(max-width: 760px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
             </figure>
@@ -83,11 +82,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       )}
 
       <section className="px-(--spacing-gutter) py-16">
-        <p className="mb-3 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">Our Approach</p>
-        <h2 className="font-heading text-4xl">Planning To Handover Under One Roof.</h2>
+        <h2 className="font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight">
+          Planning To Handover Under One Roof.
+        </h2>
+        <p className="mt-3 max-w-[440px] font-body text-base text-brand-black/80">
+          Clear decisions, coordinated delivery and a finish standard that lasts.
+        </p>
         <div className="mt-8 flex flex-wrap gap-3">
           {['Clear decisions', 'Coordinated delivery', 'Quality finishing', 'Accountable handover'].map((item) => (
-            <span key={item} className="border border-brand-black px-4 py-2 text-[14px] tracking-[0.08em] uppercase">
+            <span key={item} className="border border-brand-black/10 px-4 py-2 text-[13px] tracking-[0.08em] uppercase">
               {item}
             </span>
           ))}
@@ -104,13 +107,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         )}
       </section>
 
-      <Link
-        className="flex items-center justify-between gap-4 border-t border-brand-black px-(--spacing-gutter) py-10"
-        href={`/projects/${next.slug}`}
-      >
+      <Link className="flex items-center justify-between gap-4 px-(--spacing-gutter) py-10" href={`/projects/${next.slug}`}>
         <span>
           <span className="block text-[13px] tracking-[0.12em] text-brand-red uppercase">Next Project</span>
-          <strong className="mt-2 block font-heading text-4xl">{next.title}</strong>
+          <strong className="mt-2 block font-heading text-[clamp(1.5rem,3vw,2.25rem)]">{next.title}</strong>
         </span>
         <ArrowRight className="size-8 text-brand-red" />
       </Link>

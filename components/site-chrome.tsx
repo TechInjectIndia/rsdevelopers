@@ -2,9 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
 import { ArrowRight, Menu, MessageCircle, X } from 'lucide-react';
-import { contactDetails, navItems } from '@/lib/site-data';
+import { contactDetails, getWhatsappHref, navItems } from '@/lib/site-data';
 import { cn } from '@/lib/utils';
 
 function Logo({ className, invert = false }: { className?: string; invert?: boolean }) {
@@ -20,7 +21,13 @@ function Logo({ className, invert = false }: { className?: string; invert?: bool
   );
 }
 
+function isCurrentPath(pathname: string, href: string) {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function SiteHeader({ variant = 'solid' }: { variant?: 'solid' | 'overlay' }) {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isOverlay = variant === 'overlay';
@@ -39,34 +46,35 @@ export function SiteHeader({ variant = 'solid' }: { variant?: 'solid' | 'overlay
         className={cn(
           'z-20 flex min-h-[88px] items-center justify-between gap-6 px-(--spacing-gutter) font-heading transition-all duration-300',
           isOverlay ? 'fixed inset-x-0 top-0' : 'sticky top-0 border-b border-brand-black/10 bg-brand-white text-brand-black',
-          isOverlay && (scrolled ? 'site-nav-scrolled min-h-[78px] bg-brand-red text-brand-white shadow-[0_8px_28px_rgba(0,0,0,0.18)]' : 'text-brand-white'),
+          isOverlay && (scrolled ? 'min-h-[78px] bg-brand-white text-brand-black shadow-[0_8px_28px_rgba(0,0,0,0.08)]' : 'text-brand-white'),
         )}
       >
         <Link className="w-[140px] max-md:w-[120px]" href="/" aria-label="RS Developers home">
-          <Logo invert={isOverlay} />
+          <Logo invert={isOverlay && !scrolled} />
         </Link>
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                'nav-link-underline text-[14px] font-semibold tracking-[0.08em] uppercase',
-                isOverlay && !scrolled && '[text-shadow:0_1px_12px_rgba(0,0,0,0.35)]',
-              )}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const active = isCurrentPath(pathname, item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? 'page' : undefined}
+                className={cn(
+                  'nav-link-underline text-[14px] font-semibold tracking-[0.08em] uppercase',
+                  active && 'is-active',
+                  isOverlay && !scrolled && '[text-shadow:0_1px_12px_rgba(0,0,0,0.35)]',
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
         <Link
           className={cn(
             'hidden items-center gap-2 px-4 py-3 text-[14px] font-semibold tracking-[0.08em] uppercase md:inline-flex',
-            isOverlay
-              ? scrolled
-                ? 'bg-brand-white text-brand-red'
-                : 'bg-brand-red text-brand-white'
-              : 'bg-brand-red text-brand-white',
+            'bg-brand-red text-brand-white',
           )}
           href="/contact"
         >
@@ -76,7 +84,7 @@ export function SiteHeader({ variant = 'solid' }: { variant?: 'solid' | 'overlay
           type="button"
           className={cn(
             'grid size-10 place-items-center border-0 md:hidden',
-            isOverlay && scrolled ? 'bg-brand-white text-brand-red' : 'bg-brand-black text-brand-white',
+            'bg-brand-black text-brand-white',
           )}
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
@@ -119,14 +127,14 @@ export function SiteHeader({ variant = 'solid' }: { variant?: 'solid' | 'overlay
 }
 
 export function SiteFooter({ withCta = true }: { withCta?: boolean }) {
-  const whatsappHref = `https://wa.me/${contactDetails.whatsapp}?text=${encodeURIComponent('Hello RS Developers, I would like to discuss a project.')}`;
+  const whatsappHref = getWhatsappHref();
 
   return (
     <>
-      <section className="bg-brand-red px-(--spacing-gutter) pt-12 pb-6 text-brand-white md:pt-14 md:pb-8">
-        {withCta && (
+      {withCta && (
+        <section className="bg-brand-red px-(--spacing-gutter) py-14 text-brand-white md:py-16" id="contact">
           <div className="mx-auto flex w-full max-w-[920px] flex-col items-center text-center">
-            <h2 className="font-heading text-[clamp(1.75rem,4vw,2.75rem)] leading-tight">
+            <h2 className="font-heading text-[clamp(1.75rem,4vw,2.75rem)] leading-tight whitespace-nowrap">
               Ready To Discuss Your Project?
             </h2>
             <p className="mt-3 max-w-[480px] font-body text-base text-white/90">
@@ -136,14 +144,15 @@ export function SiteFooter({ withCta = true }: { withCta?: boolean }) {
               href={whatsappHref}
               target="_blank"
               rel="noreferrer"
-              className="mt-5 inline-flex min-h-[48px] items-center gap-3 border border-brand-white bg-brand-white px-5 py-3 font-heading text-[14px] font-semibold tracking-[0.16em] text-brand-black uppercase transition-colors hover:bg-transparent hover:text-brand-white"
+              className="mt-6 inline-flex min-h-[48px] items-center gap-3 border border-brand-white bg-brand-white px-5 py-3 font-heading text-[14px] font-semibold tracking-[0.16em] text-brand-black uppercase transition-colors hover:bg-transparent hover:text-brand-white"
             >
               Enquire On WhatsApp <ArrowRight className="size-4" />
             </a>
           </div>
-        )}
+        </section>
+      )}
 
-        <footer className={cn('bg-brand-white px-6 py-7 text-brand-black md:px-10 md:py-8', withCta ? 'mt-8 md:mt-10' : 'mt-0')}>
+      <footer className="bg-brand-white px-(--spacing-gutter) py-8 text-brand-black md:py-10">
           <div className="flex flex-col gap-6 border-b border-brand-black/15 pb-6 lg:flex-row lg:items-start lg:gap-8">
             <div className="flex w-full shrink-0 flex-col items-start gap-3 lg:w-[180px] xl:w-[200px]">
               <Link className="w-[150px]" href="/">
@@ -198,18 +207,17 @@ export function SiteFooter({ withCta = true }: { withCta?: boolean }) {
           </div>
 
           <div className="pt-4 text-center text-[12px] text-brand-black/70">
-            © 2026 Powered By{' '}
+            © 2026 Design And Developed By{' '}
             <a
               href="https://techinject.com"
               target="_blank"
               rel="noreferrer"
               className="underline underline-offset-2 hover:text-brand-red"
             >
-              Tech Inject.
+              Techinject
             </a>
           </div>
-        </footer>
-      </section>
+      </footer>
 
       <a
         className="fixed right-5 bottom-5 z-30 inline-flex items-center gap-2 bg-brand-red px-4 py-3 font-heading text-[14px] font-semibold text-brand-white uppercase shadow-lg"

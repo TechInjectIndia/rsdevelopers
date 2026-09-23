@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
-import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react';
+import { ContactForm } from '@/components/contact-form';
 import { SiteShell } from '@/components/site-chrome';
 import { contactDetails } from '@/lib/site-data';
 
@@ -8,74 +10,103 @@ export const metadata: Metadata = {
   description: 'Contact RS Developers in Ludhiana by WhatsApp, phone or email for construction and turnkey projects.',
 };
 
-export default function ContactPage() {
-  const message = encodeURIComponent('Hello RS Developers, I would like to discuss a project.');
-  const whatsappHref = `https://wa.me/${contactDetails.whatsapp}?text=${message}`;
+const details = [
+  { href: contactDetails.phoneHref, icon: Phone, label: 'Phone', value: contactDetails.phone },
+  { href: `mailto:${contactDetails.email}`, icon: Mail, label: 'Email', value: contactDetails.email },
+  {
+    href: contactDetails.mapsUrl,
+    icon: MapPin,
+    label: 'Address',
+    value: `${contactDetails.addressLine1}, ${contactDetails.addressLine2}`,
+    external: true,
+  },
+] as const;
 
+export default function ContactPage() {
   return (
     <SiteShell withCta={false}>
-      <section className="px-(--spacing-gutter) pt-16 pb-12 md:pt-24">
-        <p className="mb-4 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">Contact</p>
-        <h1 className="max-w-[16ch] font-heading text-[clamp(2.5rem,6vw,4rem)]">
-          Preferred Way To Enquire:
-          <br />
-          <em className="not-italic text-brand-red">WhatsApp.</em>
-        </h1>
-        <p className="mt-6 max-w-[560px] text-base leading-relaxed">
-          Share your project type, location, approximate scale and preferred timeline. We’ll help define the clearest path from enquiry to handover.
-        </p>
+      <section className="px-(--spacing-gutter) pt-16 pb-16 md:pt-20 md:pb-20">
+        <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="flex min-h-0 flex-col gap-3">
+            <figure className="relative m-0 h-[240px] overflow-hidden sm:h-[280px]">
+              <Image
+                src="/media/soir7-interior-1.jpg"
+                alt="An RS Developers finished interior"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </figure>
+            <div className="relative min-h-[240px] flex-1 overflow-hidden bg-[#f3f1ee] sm:min-h-[280px]">
+              <iframe
+                title="RS Developers office on Google Maps"
+                src={contactDetails.mapsEmbedUrl}
+                className="absolute inset-0 size-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <a
+                href={contactDetails.mapsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="absolute bottom-4 left-1/2 z-[1] inline-flex -translate-x-1/2 items-center gap-2 bg-brand-red px-5 py-3 font-heading text-[13px] font-semibold tracking-[0.14em] text-brand-white uppercase"
+              >
+                Get Directions <ArrowRight className="size-4" />
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-center">
+            <h1 className="font-heading text-[clamp(2rem,4vw,2.75rem)] leading-tight text-brand-black">Get In Touch</h1>
+            <p className="mt-4 max-w-[36ch] font-body text-base leading-relaxed text-brand-black/70">
+              We’re here to assist you with your project. Reach out and we’ll help define the clearest path from enquiry to handover.
+            </p>
+            <ul className="mt-8 m-0 flex list-none flex-col gap-6 p-0">
+              {details.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      target={'external' in item && item.external ? '_blank' : undefined}
+                      rel={'external' in item && item.external ? 'noreferrer' : undefined}
+                      className="flex items-start gap-4 transition-colors hover:text-brand-red"
+                    >
+                      <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[#eeeeee] text-brand-red">
+                        <Icon className="size-[18px]" strokeWidth={1.4} />
+                      </span>
+                      <span className="min-w-0 pt-0.5">
+                        <span className="block font-body text-[13px] text-brand-black/55">{item.label}</span>
+                        <span className="mt-1 block font-body text-[15px] leading-snug text-brand-black">{item.value}</span>
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+            <a
+              href="#enquiry"
+              className="mt-8 inline-flex w-fit min-h-[52px] items-center justify-center gap-3 border border-brand-red bg-brand-red px-6 py-3 font-heading text-[14px] font-semibold tracking-[0.16em] text-brand-white uppercase transition-all hover:-translate-y-0.5"
+            >
+              Send Us A Message <ArrowRight className="size-4" />
+            </a>
+          </div>
+        </div>
       </section>
 
-      <section className="grid gap-10 border-t border-brand-black px-(--spacing-gutter) py-16 lg:grid-cols-[1.1fr_0.9fr]">
-        <div>
-          <p className="mb-4 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">Speak With Our Team</p>
-          <a
-            className="flex items-center justify-between gap-4 bg-brand-red px-5 py-5 font-heading text-[14px] font-semibold tracking-[0.12em] text-brand-white uppercase"
-            href={whatsappHref}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className="inline-flex items-center gap-2">
-              <MessageCircle className="size-5" /> Continue On WhatsApp
-            </span>
-            <MessageCircle className="size-5" />
-          </a>
-          <p className="mt-4 text-base text-brand-black/70">
-            WhatsApp is the preferred first step. Calls and email are also available.
-          </p>
-        </div>
-        <div className="grid gap-3">
-          {[
-            { href: contactDetails.phoneHref, icon: Phone, label: 'Call', value: contactDetails.phone },
-            { href: contactDetails.alternatePhoneHref, icon: Phone, label: 'Alternate', value: contactDetails.alternatePhone },
-            { href: `mailto:${contactDetails.email}`, icon: Mail, label: 'Email', value: contactDetails.email },
-          ].map((item) => (
-            <a key={item.label} href={item.href} className="flex items-start gap-4 border border-brand-black/15 p-4">
-              <item.icon className="mt-1 size-5 text-brand-red" />
-              <span>
-                <span className="block text-[13px] tracking-[0.12em] text-brand-red uppercase">{item.label}</span>
-                <strong className="mt-1 block font-semibold">{item.value}</strong>
-              </span>
+      <section id="enquiry" className="px-(--spacing-gutter) pt-6 pb-20 md:pt-8 md:pb-24">
+        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
+          <div>
+            <h2 className="max-w-[16ch] font-heading text-[clamp(1.75rem,3.5vw,2.5rem)] leading-[1.15] text-brand-black">
+              Have A Question About A Project, Need Help With Planning, Or Just Want To Talk Build?
+            </h2>
+            <p className="mt-8 font-body text-[13px] text-brand-black/50">Email Directory</p>
+            <a className="mt-1 inline-block border-b border-brand-black/30 pb-0.5 font-body text-[15px] text-brand-black hover:border-brand-red hover:text-brand-red" href={`mailto:${contactDetails.email}`}>
+              {contactDetails.email}
             </a>
-          ))}
-          <a href={contactDetails.mapsUrl} target="_blank" rel="noreferrer" className="flex items-start gap-4 border border-brand-black/15 p-4">
-            <MapPin className="mt-1 size-5 text-brand-red" />
-            <span>
-              <span className="block text-[13px] tracking-[0.12em] text-brand-red uppercase">Office</span>
-              <strong className="mt-1 block font-semibold">
-                {contactDetails.addressLine1}
-                <br />
-                {contactDetails.addressLine2}
-              </strong>
-            </span>
-          </a>
-          <a href={contactDetails.instagramUrl} target="_blank" rel="noreferrer" className="flex items-start gap-4 border border-brand-black/15 p-4">
-            <span className="mt-1 grid size-5 place-items-center text-[13px] font-bold text-brand-red">IG</span>
-            <span>
-              <span className="block text-[13px] tracking-[0.12em] text-brand-red uppercase">Instagram</span>
-              <strong className="mt-1 block font-semibold">@rs_construction_interiors</strong>
-            </span>
-          </a>
+          </div>
+          <ContactForm />
         </div>
       </section>
     </SiteShell>

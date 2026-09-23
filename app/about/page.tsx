@@ -1,138 +1,129 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
-import type { LucideIcon } from 'lucide-react';
-import {
-  ArrowRight,
-  Calculator,
-  Check,
-  ClipboardList,
-  FileCheck2,
-  Hammer,
-  KeyRound,
-  ListChecks,
-  MapPinned,
-  MessagesSquare,
-  Ruler,
-} from 'lucide-react';
+import { ArrowRight, BadgeCheck, Clock3, Eye, House } from 'lucide-react';
 import { SiteShell } from '@/components/site-chrome';
-import { contactDetails, processSteps } from '@/lib/site-data';
+import { SiteButton } from '@/components/site-ui';
+import { SplitMedia } from '@/components/split-media';
+import { contactDetails, processSteps, valueItems } from '@/lib/site-data';
+
+const valueIcons = {
+  Transparency: Eye,
+  Quality: BadgeCheck,
+  'On-time delivery': Clock3,
+  'Everything under one roof': House,
+} as const;
 
 export const metadata: Metadata = {
   title: 'About RS Developers | Er. Rahul Bhardwaj',
   description: 'RS Developers — 4+ years, 30+ projects across Punjab and Himachal Pradesh. Founded by Er. Rahul Bhardwaj.',
 };
 
-const processIcons: LucideIcon[] = [
-  ClipboardList,
-  MapPinned,
-  Calculator,
-  MessagesSquare,
-  FileCheck2,
-  Ruler,
-  Hammer,
-  ListChecks,
-  KeyRound,
-];
-
 export default function AboutPage() {
   return (
-    <SiteShell>
-      <section className="px-(--spacing-gutter) pt-16 pb-12 md:pt-24">
-        <p className="mb-4 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">About · RS Developers</p>
-        <h1 className="max-w-[16ch] font-heading text-[clamp(2.5rem,6vw,4rem)]">
-          {contactDetails.taglineLine1}
-          <br />
-          <em className="not-italic text-brand-red">{contactDetails.taglineLine2}</em>
-        </h1>
-        <p className="mt-6 max-w-[640px] text-base leading-relaxed">
-          RS Developers has been in business for {contactDetails.yearsInBusiness} years with {contactDetails.projectsCompleted} projects completed. We serve clients all over Punjab and Himachal Pradesh with commercial, residential, industrial and turnkey projects.
-        </p>
+    <SiteShell headerVariant="overlay">
+      <section className="relative flex h-[80vh] flex-col justify-end overflow-hidden bg-brand-black text-brand-white">
+        <Image
+          src="/media/coyaba-facade.webp"
+          alt="RS Developers project"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="hero-wash" aria-hidden="true" />
+        <div className="relative z-[5] max-w-[720px] px-(--spacing-gutter) pt-[clamp(7.5rem,16vh,10rem)] pb-[clamp(3rem,6vh,4.5rem)]">
+          <h1 className="max-w-[900px] font-heading text-[clamp(3rem,7.5vw,3.5rem)] leading-[1.02] text-white [text-shadow:0_2px_28px_rgba(0,0,0,0.45)]">
+            {contactDetails.taglineLine1}
+            <br />
+            <span className="text-brand-red">{contactDetails.taglineLine2}</span>
+          </h1>
+          <p className="mt-6 max-w-[540px] font-body text-base text-white/90 [text-shadow:0_1px_16px_rgba(0,0,0,0.4)]">
+            RS Developers has been in business for {contactDetails.yearsInBusiness} years with {contactDetails.projectsCompleted} projects completed. We serve clients all over Punjab and Himachal Pradesh with commercial, residential, industrial and turnkey projects.
+          </p>
+          <SiteButton href="/contact" variant="red" className="mt-9">
+            Start A Conversation <ArrowRight className="size-4" />
+          </SiteButton>
+        </div>
       </section>
 
-      <section className="grid gap-10 border-t border-brand-black px-(--spacing-gutter) py-16 md:grid-cols-2">
-        <div>
-          <p className="mb-3 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">What Sets Us Apart</p>
-          <h2 className="font-heading text-4xl">All Things Under One Roof.</h2>
-        </div>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {contactDetails.values.map((value) => (
-            <span key={value} className="flex items-start gap-3 border border-brand-black/15 p-4 text-base">
-              <Check className="mt-0.5 size-5 shrink-0 text-brand-red" />
-              {value}
+      <SplitMedia
+        src="/media/rahul-bhardwaj-founder.jpg"
+        alt="Er. Rahul Bhardwaj, founder of RS Developers"
+        fitViewport
+        inset
+        imageClassName="object-[center_18%]"
+      >
+        <p className="font-body text-[13px] font-semibold tracking-[0.16em] text-brand-red uppercase">
+          {contactDetails.founder.designation}
+        </p>
+        <h2 className="mt-3 font-heading text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.08]">
+          Er. Rahul <span className="text-brand-red">Bhardwaj</span>
+        </h2>
+        <p className="mt-5 max-w-[42ch] font-body text-base leading-relaxed text-brand-black/70">
+          Founder of RS Developers, with {contactDetails.founder.experience} of professional experience. He leads planning, construction and turnkey delivery with an engineering-first approach—focused on transparency, quality and on-time handover.
+        </p>
+        <div className="mt-7 flex max-w-sm flex-wrap gap-1.5">
+          {contactDetails.founder.memberships.map((item) => (
+            <span key={item} className="border border-brand-black/10 bg-brand-white px-2 py-1 text-[12px] tracking-[0.08em] text-brand-black/70 uppercase">
+              {item}
             </span>
           ))}
         </div>
-      </section>
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <SiteButton href="/contact" variant="red">
+            Start A Conversation <ArrowRight className="size-4" />
+          </SiteButton>
+        </div>
+      </SplitMedia>
 
-      <section className="grid gap-10 border-t border-brand-black px-(--spacing-gutter) py-16 md:grid-cols-2">
-        <figure className="relative min-h-[420px] overflow-hidden">
-          <Image
-            src="/media/rahul-bhardwaj-founder.jpg"
-            alt="Er. Rahul Bhardwaj, founder of RS Developers"
-            fill
-            sizes="(max-width: 760px) 100vw, 46vw"
-            className="object-cover"
-          />
-        </figure>
-        <div>
-          <span className="text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">{contactDetails.founder.designation}</span>
-          <h2 className="mt-3 font-heading text-4xl">{contactDetails.founder.name}</h2>
-          <h3 className="mt-4 text-xl font-semibold">{contactDetails.founder.experience} of professional experience.</h3>
-          <p className="mt-4 text-base leading-relaxed">
-            Er. Rahul Bhardwaj leads RS Developers with an engineering-first approach to planning, construction and turnkey delivery—focused on transparency, quality and on-time handover.
+      <section className="bg-brand-red px-(--spacing-gutter) py-16 text-brand-white md:py-20">
+        <div className="mx-auto mb-12 max-w-[820px] text-center md:mb-16">
+          <h2 className="font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight text-white">
+            All Things Under One Roof.
+          </h2>
+          <p className="mx-auto mt-3 max-w-[640px] font-body text-base leading-relaxed text-white/85">
+            What clients come to us for—clear communication, finish quality and a team that stays accountable through handover.
           </p>
-          <div className="mt-6">
-            <p className="mb-3 text-[13px] tracking-[0.12em] text-brand-red uppercase">Memberships</p>
-            <ul className="flex flex-wrap gap-2">
-              {contactDetails.founder.memberships.map((item) => (
-                <li key={item} className="border border-brand-black px-3 py-2 text-[14px]">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <Link href="/contact" className="mt-8 inline-flex items-center gap-2 font-heading text-[14px] font-semibold tracking-[0.08em] uppercase">
-            Start A Conversation <ArrowRight className="size-4 text-brand-red" />
-          </Link>
+        </div>
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6 lg:gap-10">
+          {valueItems.map((item) => {
+            const Icon = valueIcons[item.title];
+            return (
+              <article key={item.title} className="flex flex-col items-center text-center">
+                <span className="mb-4 grid size-12 place-items-center rounded-full bg-white/15 text-white">
+                  <Icon className="size-5" strokeWidth={1.75} />
+                </span>
+                <h3 className="font-heading text-[1.15rem] leading-snug text-white lg:text-[1.25rem]">{item.title}</h3>
+                <p className="mt-2 m-0 max-w-[28ch] font-body text-[14px] leading-relaxed text-white/80">{item.lead}</p>
+              </article>
+            );
+          })}
         </div>
       </section>
 
-      <section className="grid gap-10 border-t border-brand-black px-(--spacing-gutter) py-16 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start lg:gap-14">
-        <figure className="relative min-h-[360px] overflow-hidden md:min-h-[480px] lg:sticky lg:top-28 lg:min-h-[560px]">
-          <Image
-            src="/media/coyaba-detail-1.webp"
-            alt="Crafted construction detail from an RS Developers project"
-            fill
-            sizes="(max-width: 1024px) 100vw, 42vw"
-            className="object-cover"
-          />
-        </figure>
-
-        <div>
-          <p className="mb-3 text-[14px] font-semibold tracking-[0.16em] text-brand-red uppercase">From Enquiry To Handover</p>
-          <h2 className="font-heading text-4xl">How A Project Moves Forward.</h2>
-          <p className="mt-4 max-w-[42ch] text-base leading-relaxed text-brand-black/75">
+      <section className="px-(--spacing-gutter) py-16 md:py-20">
+        <div className="mx-auto mb-12 max-w-[720px] text-center md:mb-14">
+          <h2 className="font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight text-brand-black">
+            How A Project Moves Forward.
+          </h2>
+          <p className="mx-auto mt-3 max-w-[540px] font-body text-base leading-relaxed text-brand-black/70">
             A clear path from first conversation to final keys—so every stage stays visible, accountable and on schedule.
           </p>
-
-          <ol className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-            {processSteps.map((step, index) => {
-              const Icon = processIcons[index] ?? ClipboardList;
-              return (
-                <li key={step} className="flex flex-col gap-3">
-                  <span className="grid size-11 place-items-center bg-brand-red text-brand-white" aria-hidden="true">
-                    <Icon className="size-5" strokeWidth={1.75} />
-                  </span>
-                  <span className="font-heading text-[12px] font-semibold tracking-[0.14em] text-brand-red uppercase">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className="text-[15px] leading-snug text-brand-black">{step}</span>
-                </li>
-              );
-            })}
-          </ol>
         </div>
+
+        <ol className="m-0 grid list-none grid-cols-1 gap-x-8 gap-y-10 p-0 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-12">
+          {processSteps.map((step, index) => (
+            <li key={step.title} className="flex flex-col">
+              <span className="mb-4 grid size-11 place-items-center rounded-full bg-brand-red font-heading text-[13px] font-semibold tracking-[0.06em] text-white">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 className="font-heading text-[1.2rem] leading-snug text-brand-black">{step.title}</h3>
+              <p className="mt-2 m-0 max-w-[36ch] font-body text-[14px] leading-relaxed text-brand-black/60">
+                {step.lead}
+              </p>
+            </li>
+          ))}
+        </ol>
       </section>
     </SiteShell>
   );

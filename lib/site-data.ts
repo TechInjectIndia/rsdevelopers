@@ -38,6 +38,7 @@ export type ContactDetails = {
   addressLine1: string;
   addressLine2: string;
   mapsUrl: string;
+  mapsEmbedUrl: string;
   areasServed: string;
   yearsInBusiness: string;
   projectsCompleted: string;
@@ -194,17 +195,70 @@ export const ongoingProjects = [
   'Banquet hall at hotel',
 ] as const;
 
-export const processSteps: string[] = [
-  'Understanding the requirements',
-  'Site visit and consultation',
-  'Estimate or BOQ',
-  'Final discussion',
-  'Agreement',
-  'Planning',
-  'Execution',
-  'Snagging',
-  'Final handover',
-];
+export const processSteps = [
+  {
+    title: 'Understanding the requirements',
+    lead: 'We listen carefully and capture scope, priorities and what success looks like for you.',
+  },
+  {
+    title: 'Site visit and consultation',
+    lead: 'On-site review to understand conditions, opportunities and practical constraints.',
+  },
+  {
+    title: 'Estimate or BOQ',
+    lead: 'A clear cost breakdown so decisions stay transparent before work begins.',
+  },
+  {
+    title: 'Final discussion',
+    lead: 'We align on scope, timeline and expectations before moving into agreement.',
+  },
+  {
+    title: 'Agreement',
+    lead: 'Terms are confirmed so both sides share one accountable plan of work.',
+  },
+  {
+    title: 'Planning',
+    lead: 'Drawings, sequencing and coordination lock in how delivery will run.',
+  },
+  {
+    title: 'Execution',
+    lead: 'Disciplined site work with steady communication through every stage.',
+  },
+  {
+    title: 'Snagging',
+    lead: 'A careful quality pass to resolve details before the final handover.',
+  },
+  {
+    title: 'Final handover',
+    lead: 'Keys, walkthrough and a clean close-out once everything is complete.',
+  },
+] as const;
+
+export const valueItems = [
+  {
+    title: 'Transparency',
+    lead: 'Clear scopes, honest updates and decisions that stay visible from first enquiry.',
+  },
+  {
+    title: 'Quality',
+    lead: 'Materials, finishing and site discipline held to a standard that lasts.',
+  },
+  {
+    title: 'On-time delivery',
+    lead: 'A culture of planning, sequencing and accountability so dates mean something.',
+  },
+  {
+    title: 'Everything under one roof',
+    lead: 'Planning, construction, interiors and handover through one responsible team.',
+  },
+] as const;
+
+export const serviceDeliverables = [
+  'Planning and consultation',
+  'Estimate / BOQ',
+  'Coordinated execution',
+  'Snagging and handover',
+] as const;
 
 export const contactDetails: ContactDetails = {
   businessName: 'RS Developers',
@@ -220,6 +274,7 @@ export const contactDetails: ContactDetails = {
   addressLine1: '303, Second Floor, Sethi Complex',
   addressLine2: 'Bharat Nagar Chowk, Ludhiana',
   mapsUrl: 'https://maps.google.com/?q=303+Second+Floor+Sethi+Complex+Bharat+Nagar+Chowk+Ludhiana',
+  mapsEmbedUrl: 'https://maps.google.com/maps?q=303+Second+Floor+Sethi+Complex+Bharat+Nagar+Chowk+Ludhiana&output=embed',
   areasServed: 'Punjab · Himachal Pradesh',
   yearsInBusiness: '4+',
   projectsCompleted: '30+',
@@ -237,3 +292,7 @@ export const contactDetails: ContactDetails = {
     memberships: ['JCI India', 'BNI', 'NPC Club', 'Rotary Club'],
   },
 };
+
+export function getWhatsappHref(message = 'Hello RS Developers, I would like to discuss a project.') {
+  return `https://wa.me/${contactDetails.whatsapp}?text=${encodeURIComponent(message)}`;
+}

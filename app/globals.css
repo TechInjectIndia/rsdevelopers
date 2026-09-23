@@ -15,6 +15,7 @@
   --color-brand-black: #000000;
   --color-brand-white: #ffffff;
   --spacing-gutter: clamp(1.25rem, 5vw, 5rem);
+  --spacing-inset: clamp(1rem, 3vw, 2.5rem);
   --spacing-section: clamp(5rem, 10vw, 9rem);
   --text-nav: 14px;
   --text-4xl: 2.25rem;
@@ -94,13 +95,10 @@
   transition: transform 0.3s, background 0.3s;
 }
 
-.nav-link-underline:hover::after {
+.nav-link-underline:hover::after,
+.nav-link-underline.is-active::after {
   transform: scaleX(1);
   transform-origin: left;
-}
-
-.site-nav-scrolled .nav-link-underline::after {
-  background: #ffffff;
 }
 
 @media (prefers-reduced-motion: reduce) {
