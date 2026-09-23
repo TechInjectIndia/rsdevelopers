@@ -342,7 +342,6 @@ export default function Home() {
             <p className="founder-badge">Owner &amp; founder</p>
             <strong>Rahul Bhardwaj</strong>
             <p className="founder-meta">Owner &amp; Founder · 13 years of experience</p>
-            <em>Rahul Bhardwaj</em>
           </figcaption>
         </figure>
         <div className="founder-story">

@@ -31,6 +31,9 @@
   --type-label: .8125rem;
   --type-meta: .75rem;
   --type-body: 1rem;
+  --type-section-title: 2.45rem;
+  --type-section-copy: .95rem;
+  --type-primary-action: .875rem;
   --tracking-label: .15em;
   --tracking-heading: -.052em;
   --tracking-display: -.068em;
@@ -304,7 +307,6 @@ svg { flex: 0 0 auto; }
 .founder-badge::after { width: 28px; height: 1px; background: var(--gold); content: ''; }
 .founder-portrait figcaption strong { margin-top: 1rem; color: var(--white); font-family: var(--font-heading); font-size: clamp(2rem, 3.2vw, 2.65rem); font-weight: 500; letter-spacing: .01em; line-height: 1.08; word-spacing: .08em; }
 .founder-meta { max-width: 11.5rem; margin: .7rem 0 0; color: rgba(255,255,255,.78); font-size: .82rem; line-height: 1.45; }
-.founder-portrait figcaption em { margin-top: auto; color: rgba(255,255,255,.92); font-family: var(--font-accent); font-size: clamp(1.45rem, 2.2vw, 1.85rem); font-style: italic; font-weight: 400; }
 .founder-story { align-self: center; }
 .founder-story .eyebrow { margin: 0 0 .85rem; }
 .founder-story h2 { margin: 0; color: var(--ink); font-family: var(--font-heading); font-size: clamp(2.35rem, 4vw, 3.15rem); font-weight: 500; letter-spacing: .01em; word-spacing: .1em; line-height: 1.12; }
@@ -351,7 +353,7 @@ svg { flex: 0 0 auto; }
 .instagram.section { display: flex; height: 75svh; min-height: 0; flex-direction: column; padding-block: clamp(2rem, 3.5vh, 3.25rem); }
 .instagram-heading { display: grid; flex: 0 0 auto; grid-template-columns: 1fr 1fr; align-items: end; gap: clamp(3rem, 5vw, 7rem); }
 .instagram-heading-title { max-width: 900px; }
-.instagram h2 { max-width: 900px; font-size: clamp(2.5rem, 3.4vw, 4.1rem); letter-spacing: var(--tracking-heading); line-height: var(--leading-heading); }
+.instagram h2 { max-width: 900px; font-size: 2.25rem; letter-spacing: .02em; word-spacing: .12em; line-height: 1.25; }
 .instagram-heading-action { display: flex; width: 100%; max-width: 760px; align-items: flex-end; justify-self: end; flex-direction: column; text-align: right; }
 .instagram-heading-action > p { max-width: 760px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.6; }
 .instagram-heading-action > a { display: inline-flex; min-width: min(100%, 320px); min-height: 50px; align-items: center; justify-content: center; gap: .75rem; margin-top: 1rem; background: var(--wine); padding: .8rem 1.25rem; color: var(--white); font-size: 13px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; cursor: pointer; transition: background .25s, transform .25s; }
@@ -375,7 +377,7 @@ svg { flex: 0 0 auto; }
 .contact-details { align-self: center; }
 .contact .light-label { color: var(--wine); }
 .contact .section-label.light-label span { border-color: var(--wine); color: var(--wine); }
-.contact-details h2 { max-width: 620px; margin-top: clamp(1.5rem, 2.5vh, 2.25rem); font-size: clamp(2.6rem, 3.7vw, 4.5rem); letter-spacing: var(--tracking-heading); line-height: var(--leading-heading); }
+.contact-details h2 { max-width: 620px; margin-top: clamp(1.5rem, 2.5vh, 2.25rem); font-size: 2.25rem; letter-spacing: .02em; word-spacing: .12em; line-height: 1.25; }
 .contact-details > p { max-width: 520px; margin: 1rem 0 0; color: var(--muted); font-size: 1rem; line-height: 1.65; }
 .contact-links { display: grid; gap: .7rem; margin-top: clamp(1.5rem, 2.5vh, 2.25rem); }
 .contact-links a { display: flex; align-items: flex-start; gap: .85rem; font-size: .94rem; line-height: 1.5; }
@@ -838,8 +840,6 @@ svg { flex: 0 0 auto; }
 }
 
 .projects h2,
-.instagram h2,
-.contact h2,
 .capability-copy h2,
 .inner-process h2,
 .portfolio-grid h2,
@@ -855,6 +855,88 @@ svg { flex: 0 0 auto; }
 .inner-footer-directory p,
 .inner-footer-directory a {
   font-size: .875rem;
+}
+
+/* Homepage editorial rhythm: one title, copy and primary-action scale. */
+.clients h2,
+.intro h2,
+.service-manifesto h2,
+.projects h2,
+.project-register-heading h3,
+.process-heading h2,
+.founder-story h2,
+.active-work-copy h3,
+.instagram h2,
+.contact-details h2,
+.footer-cta h2 {
+  font-family: var(--font-heading);
+  font-size: var(--type-section-title);
+  font-weight: 500;
+  letter-spacing: .02em;
+  line-height: 1.2;
+  word-spacing: .12em;
+}
+
+.clients-heading > p:last-child,
+.intro-copy > p:not(.intro-kicker),
+.services-head-aside > p,
+.projects-head > div:last-child > .projects-head-copy,
+.project-copy,
+.founder-story > p:not(.eyebrow),
+.active-work-copy > p:last-of-type,
+.instagram-heading-action > p,
+.contact-details > p {
+  font-family: var(--font-body);
+  font-size: var(--type-section-copy);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.65;
+  word-spacing: .08em;
+}
+
+.solid-button,
+.intro-link,
+.project-link,
+.instagram-heading-action > a,
+.contact-form-wrap button.full {
+  min-height: 52px;
+  border: 1px solid var(--wine);
+  border-radius: 0;
+  background: var(--wine);
+  padding: .8rem 1.25rem;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: var(--type-primary-action);
+  font-weight: 600;
+  letter-spacing: .16em;
+  line-height: 1;
+  text-transform: uppercase;
+  word-spacing: normal;
+}
+
+.solid-button:hover,
+.intro-link:hover,
+.project-link:hover,
+.instagram-heading-action > a:hover,
+.contact-form-wrap button.full:hover {
+  border-color: var(--wine-deep);
+  background: var(--wine-deep);
+}
+
+@media (max-width: 720px) {
+  .clients h2,
+  .intro h2,
+  .service-manifesto h2,
+  .projects h2,
+  .project-register-heading h3,
+  .process-heading h2,
+  .founder-story h2,
+  .active-work-copy h3,
+  .instagram h2,
+  .contact-details h2,
+  .footer-cta h2 {
+    font-size: 2rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
