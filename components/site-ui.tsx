@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'motion/react';
+import type { LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -70,11 +71,13 @@ type IntroProps = {
   action?: ReactNode;
   align?: 'left' | 'center' | 'split';
   className?: string;
+  tone?: 'light' | 'on-red';
 };
 
-export function SectionIntro({ as: Tag = 'h2', title, copy, action, align = 'left', className }: IntroProps) {
+export function SectionIntro({ as: Tag = 'h2', title, copy, action, align = 'left', className, tone = 'light' }: IntroProps) {
   const isCenter = align === 'center';
   const isSplit = align === 'split';
+  const inverted = tone === 'on-red';
 
   return (
     <div
@@ -85,8 +88,16 @@ export function SectionIntro({ as: Tag = 'h2', title, copy, action, align = 'lef
       )}
     >
       <div className={cn('min-w-0', isCenter && 'flex flex-col items-center')}>
-        <Tag className="font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight text-brand-black">{title}</Tag>
-        <p className={cn('mt-3 font-body text-base leading-relaxed text-brand-black/80', isCenter ? 'max-w-[640px]' : 'max-w-[440px]')}>
+        <Tag className={cn('font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight', inverted ? 'text-white' : 'text-brand-black')}>
+          {title}
+        </Tag>
+        <p
+          className={cn(
+            'mt-3 font-body text-base leading-relaxed',
+            inverted ? 'text-white/85' : 'text-brand-black/80',
+            isCenter ? 'max-w-[640px]' : 'max-w-[440px]',
+          )}
+        >
           {copy}
         </p>
       </div>
@@ -112,20 +123,45 @@ type NumberedItem = {
   lead: string;
 };
 
-export function NumberedList({ items, compact = false }: { items: readonly NumberedItem[]; compact?: boolean }) {
+export function NumberedList({
+  items,
+  compact = false,
+  icons,
+}: {
+  items: readonly NumberedItem[];
+  compact?: boolean;
+  icons?: Partial<Record<string, LucideIcon>>;
+}) {
   return (
     <ul className="m-0 flex list-none flex-col divide-y divide-brand-black/10 p-0">
-      {items.map((item, index) => (
-        <li key={item.title} className={cn('grid grid-cols-[2rem_1fr] gap-4 first:pt-0 last:pb-0', compact ? 'py-3' : 'py-5')}>
-          <span className="pt-1 font-heading text-[12px] font-semibold tracking-[0.14em] text-brand-red uppercase" aria-hidden>
-            {String(index + 1).padStart(2, '0')}
-          </span>
-          <div className="min-w-0">
-            <h3 className="font-heading text-[1.25rem] leading-snug text-brand-black">{item.title}</h3>
-            <p className="mt-1.5 m-0 max-w-[38ch] font-body text-[14px] leading-relaxed text-brand-black/60">{item.lead}</p>
-          </div>
-        </li>
-      ))}
+      {items.map((item, index) => {
+        const Icon = icons?.[item.title];
+
+        return (
+          <li
+            key={item.title}
+            className={cn(
+              'grid items-start gap-4 first:pt-0 last:pb-0',
+              Icon ? 'grid-cols-[2.75rem_1fr]' : 'grid-cols-[2rem_1fr]',
+              compact ? 'py-3' : 'py-5',
+            )}
+          >
+            {Icon ? (
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-brand-red text-white" aria-hidden>
+                <Icon className="size-5" strokeWidth={1.75} />
+              </span>
+            ) : (
+              <span className="pt-1 font-heading text-[12px] font-semibold tracking-[0.14em] text-brand-red uppercase" aria-hidden>
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            )}
+            <div className="min-w-0">
+              <h3 className="font-heading text-[1.25rem] leading-snug text-brand-black">{item.title}</h3>
+              <p className="mt-1.5 m-0 max-w-[38ch] font-body text-[14px] leading-relaxed text-brand-black/60">{item.lead}</p>
+            </div>
+          </li>
+        );
+      })}
     </ul>
   );
 }

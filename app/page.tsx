@@ -4,12 +4,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowDownRight, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowDownRight, ArrowLeft, ArrowRight, BadgeCheck, Clock3, Eye, House } from 'lucide-react';
 import { SiteFooter, SiteHeader } from '@/components/site-chrome';
 import { NumberedList, Reveal, SectionIntro, SiteButton } from '@/components/site-ui';
 import { SplitMedia } from '@/components/split-media';
 import { capabilities, caseStudies, contactDetails, valueItems } from '@/lib/site-data';
 import { cn } from '@/lib/utils';
+
+const valueIcons = {
+  Transparency: Eye,
+  Quality: BadgeCheck,
+  'On-time delivery': Clock3,
+  'Everything under one roof': House,
+} as const;
 
 const heroImages = [
   { src: '/media/coyaba-facade.webp', alt: 'The Coyaba resort facade', label: 'The Coyaba' },
@@ -136,22 +143,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-brand-white px-(--spacing-gutter) py-12 text-center text-brand-black md:py-20" id="about">
-        <Reveal className="mx-auto flex w-full max-w-[1100px] flex-col items-center">
-          <SectionIntro
-            align="center"
-            title="Transparency, Quality And On-Time Delivery."
-            copy={`Based in Ludhiana with ${contactDetails.yearsInBusiness} years in business and ${contactDetails.projectsCompleted} projects completed, RS Developers serves clients all over Punjab and Himachal Pradesh. We specialise in commercial, residential, industrial and turnkey work—with everything under one roof.`}
-            action={
-              <SiteButton href="/about" variant="red">
-                More About Us <ArrowRight className="size-4" />
-              </SiteButton>
-            }
-          />
-        </Reveal>
-      </section>
-
-      <SplitMedia src="/media/coyaba-facade.webp" alt="RS Developers project facade" curve fitViewport>
+      <SplitMedia
+        src="/media/coyaba-facade.webp"
+        alt="RS Developers project facade"
+        curve
+        fitViewport
+        className="bg-brand-white py-8 md:py-12"
+      >
         <h2 className="font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight text-brand-black">
           Built Around How You Want To Live And Work.
         </h2>
@@ -159,11 +157,27 @@ export default function Home() {
           One accountable team from first conversation to final keys—so quality, timeline and finish stay in the same hands.
         </p>
         <div className="mt-5">
-          <NumberedList items={valueItems} compact />
+          <NumberedList items={valueItems} compact icons={valueIcons} />
         </div>
       </SplitMedia>
 
-      <section className="bg-brand-white px-(--spacing-gutter) py-12 text-brand-black md:py-16" id="work">
+      <section className="bg-brand-red px-(--spacing-gutter) py-12 text-center text-brand-white md:py-20" id="about">
+        <Reveal className="mx-auto flex w-full max-w-[1100px] flex-col items-center">
+          <SectionIntro
+            align="center"
+            tone="on-red"
+            title="Transparency, Quality And On-Time Delivery."
+            copy={`Based in Ludhiana with ${contactDetails.yearsInBusiness} years in business and ${contactDetails.projectsCompleted} projects completed, RS Developers serves clients all over Punjab and Himachal Pradesh. We specialise in commercial, residential, industrial and turnkey work—with everything under one roof.`}
+            action={
+              <SiteButton href="/about" variant="white">
+                More About Us <ArrowRight className="size-4" />
+              </SiteButton>
+            }
+          />
+        </Reveal>
+      </section>
+
+      <section className="bg-brand-white px-(--spacing-gutter) pt-12 pb-8 text-brand-black md:pt-16 md:pb-8" id="work">
         <SectionIntro
           align="split"
           className="mb-10 md:mb-12"
@@ -179,7 +193,7 @@ export default function Home() {
           {featuredProjects.map((project) => (
             <Reveal key={project.title}>
               <Link href={project.href} className="flex h-full flex-col bg-brand-white">
-                <figure className="relative m-0 h-[240px] overflow-hidden sm:h-[280px] lg:h-[320px]">
+                <figure className="relative m-0 h-[280px] overflow-hidden sm:h-[320px] lg:h-[380px]">
                   <Image src={project.image} alt={project.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                 </figure>
                 <div className="flex flex-1 flex-col gap-2 pt-5">
@@ -192,7 +206,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-brand-white px-(--spacing-gutter) py-12 text-brand-black md:py-16" id="services">
+      <section className="bg-brand-white px-(--spacing-gutter) pt-6 pb-12 text-brand-black md:pt-8 md:pb-16" id="services">
         <SectionIntro
           align="center"
           className="mb-10 md:mb-12"
@@ -202,7 +216,7 @@ export default function Home() {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {capabilities.map((service) => (
             <article key={service.slug} className="flex flex-col bg-brand-white">
-              <figure className="relative mb-5 h-[180px] overflow-hidden">
+              <figure className="relative mb-5 h-[260px] overflow-hidden sm:h-[300px] lg:h-[360px]">
                 <Image src={service.image} alt={service.title} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" />
               </figure>
               <h3 className="font-heading text-[1.35rem] leading-tight">{service.title}</h3>

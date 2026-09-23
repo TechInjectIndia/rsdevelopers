@@ -10,6 +10,7 @@ type SplitMediaProps = {
   reverse?: boolean;
   className?: string;
   imageClassName?: string;
+  figureClassName?: string;
   fitViewport?: boolean;
   inset?: boolean;
 };
@@ -22,13 +23,14 @@ export function SplitMedia({
   reverse = false,
   className,
   imageClassName,
+  figureClassName,
   fitViewport = false,
   inset = false,
 }: SplitMediaProps) {
   return (
     <section
       className={cn(
-        'overflow-hidden md:grid md:grid-cols-2',
+        'overflow-x-hidden md:grid md:grid-cols-2',
         fitViewport && !inset && 'md:h-[calc(100svh-78px)] md:items-stretch',
         fitViewport && inset && 'md:h-[calc(100svh-78px-(var(--spacing-inset)*2))] md:items-stretch',
         inset && 'm-(--spacing-inset)',
@@ -42,6 +44,7 @@ export function SplitMedia({
           fitViewport ? 'h-[280px] md:h-full' : 'h-[240px] sm:h-[300px] md:h-[420px]',
           curve && 'rounded-tr-[clamp(5rem,20vw,10rem)]',
           reverse && 'md:order-2',
+          figureClassName,
         )}
       >
         <Image

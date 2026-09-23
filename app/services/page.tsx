@@ -40,7 +40,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="px-(--spacing-gutter) py-16 md:py-20">
+      <section className="px-(--spacing-gutter) pt-8 pb-16 md:pt-10 md:pb-20">
         <div className="mx-auto mb-12 max-w-[720px] text-center md:mb-14">
           <h2 className="font-heading text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight text-brand-black">
             Services We Deliver.
@@ -52,7 +52,7 @@ export default function ServicesPage() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {capabilities.map((service) => (
             <article id={service.slug} key={service.slug} className="flex flex-col">
-              <figure className="relative mb-5 h-[280px] overflow-hidden md:h-[340px]">
+              <figure className="relative mb-5 h-[320px] overflow-hidden md:h-[400px]">
                 <Image
                   src={service.image}
                   alt={`${service.title} by RS Developers`}
