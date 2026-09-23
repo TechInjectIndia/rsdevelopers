@@ -8,6 +8,7 @@ const playfair = Playfair_Display({
   subsets: ['latin'],
   display: 'swap',
   weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
 });
 
 const poppins = Poppins({
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${poppins.variable}`}>
-      <body className="min-h-svh bg-brand-white font-body text-brand-black antialiased">{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
